@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+        "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+        "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<!-- Suppressions -->
+<suppressions>
+    <suppress files=".*Test\.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="SampleTestRepository\.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="SampleArgumentMatcher\.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="SampleServiceImpl\.java" checks="VisibilityModifier"/>
+    <suppress files="ExceptionInfo\.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="models/.*\.java" checks="[a-zA-Z0-9]*"/>
+</suppressions>

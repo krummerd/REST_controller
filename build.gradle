@@ -1,0 +1,100 @@
+plugins {
+    id 'org.springframework.boot' version '1.4.3.RELEASE'
+    id 'java'
+
+    // Code quality plugins
+    id 'findbugs'
+    id 'jacoco'
+    id 'jdepend'
+    id 'pmd'
+    id 'checkstyle'
+}
+
+group 'com.uts.ostp'
+version '1.0-SNAPSHOT'
+
+compileJava {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+    options.encoding = 'UTF-8'
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    integrationTest {
+        java {
+            srcDir file('src/integrationTest/java')
+        }
+        resources {
+            srcDir file('src/integrationTest/resources')
+        }
+        compileClasspath += sourceSets.main.output + sourceSets.test.output + configurations.testRuntime
+        runtimeClasspath += output + compileClasspath
+    }
+}
+
+configurations {
+    integrationTestCompile.extendsFrom testCompile
+}
+
+task integrationTest(type: Test) {
+    group = 'verification'
+    description = 'Integration tests'
+
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+}
+
+check.dependsOn integrationTest
+
+dependencies {
+    // Spring boot dependencies
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: 'spring-boot-starter-tomcat'
+    }
+    compile("org.springframework.boot:spring-boot-starter-undertow")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    // Javax
+    compile('javax.inject:javax.inject:1')
+
+    // Postgres
+    compile("postgresql:postgresql:9.1-901-1.jdbc4")
+
+    // Test dependencies
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+    testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3'
+
+    // Integration tests dependencies
+    integrationTestCompile "org.springframework.boot:spring-boot-starter-test"
+    integrationTestCompile group: 'org.skyscreamer', name: 'jsonassert', version: '1.4.0'
+    integrationTestCompile("org.hsqldb:hsqldb:2.3.2")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.enabled true
+    }
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+}
+
+tasks.withType(Checkstyle) {
+    configFile = file("$projectDir/config/checkstyle/checkstyle.xml")
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+}

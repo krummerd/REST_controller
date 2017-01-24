@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://ostpdb:5432/ostpdb
+    username: postgres
+    password: ${OSTPDB_PASSWORD}
+    platform: postgres
+  jpa:
+    database: POSTGRESQL
+    show-sql: false
+    hibernate:
+      ddl-auto: update # TODO: remove this, manage database manually

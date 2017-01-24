@@ -1,0 +1,13 @@
+spring:
+  jpa:
+    database: HSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  datasource:
+    platform: hsql
+    url: jdbc:hsqldb:mem:ostp
+    username: SA
+    password:
+  database:
+    driverClassName: org.hsqldb.jdbc.JDBCDriver
